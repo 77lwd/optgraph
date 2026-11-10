@@ -24,37 +24,39 @@ def calculator(expression: str) -> str:
 # ============= 2. 定义节点 =============
 def agent_node(state: MessagesState) -> MessagesState:
     """Agent节点：模拟LLM的决策"""
-    # 🆕 获取当前执行的step
+    # ✅ 正确方法：从metadata获取step
     config = get_config()
-    step = config.get("configurable", {}).get("checkpoint_ns", "unknown")
+    step = config.get("metadata", {}).get("langgraph_step", 0)
+    node_name = config.get("metadata", {}).get("langgraph_node", "unknown")
 
     messages = state["messages"]
     last_message = messages[-1].content
 
-    print(f"\n[Step {step}] [Agent节点] 收到消息: {last_message}")
+    print(f"\n[Step {step}] [{node_name}] 收到消息: {last_message}")
 
     # 简单的规则：如果包含数字和运算符，就调用工具
     if any(op in last_message for op in ["+", "-", "*", "/"]):
-        print(f"[Step {step}] [Agent节点] 决策: 需要调用计算器工具")
+        print(f"[Step {step}] [{node_name}] 决策: 需要调用计算器工具")
         return {"messages": [AIMessage(content="需要计算")]}
     else:
-        print(f"[Step {step}] [Agent节点] 决策: 直接回答")
+        print(f"[Step {step}] [{node_name}] 决策: 直接回答")
         return {"messages": [AIMessage(content="你好！我是计算助手，发送数学表达式给我吧，比如: 123+456")]}
 
 
 def tool_node(state: MessagesState) -> MessagesState:
     """Tool节点：执行工具"""
-    # 🆕 获取当前执行的step
+    # ✅ 正确方法：从metadata获取step
     config = get_config()
-    step = config.get("configurable", {}).get("checkpoint_ns", "unknown")
+    step = config.get("metadata", {}).get("langgraph_step", 0)
+    node_name = config.get("metadata", {}).get("langgraph_node", "unknown")
 
     messages = state["messages"]
     # 从第一条消息（用户输入）里提取计算表达式
     user_input = messages[0].content
 
-    print(f"[Step {step}] [Tool节点] 执行计算: {user_input}")
+    print(f"[Step {step}] [{node_name}] 执行计算: {user_input}")
     result = calculator(user_input)
-    print(f"[Step {step}] [Tool节点] 计算结果: {result}")
+    print(f"[Step {step}] [{node_name}] 计算结果: {result}")
 
     return {"messages": [AIMessage(content=result)]}
 
