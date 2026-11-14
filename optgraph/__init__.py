@@ -2,19 +2,21 @@
 OptGraph - Production-Ready Agent Orchestration Framework
 
 Core components:
-- AdaptiveCheckpointSaver: Context compression
+- MemoryState: State management with memory
 - DependencyAwareExecutor: Parallel execution
 - CostTracker: Cost monitoring
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
-from optgraph.checkpointer import AdaptiveCheckpointSaver
+from optgraph.memory_state import MemoryState, compress_memory, get_context_with_memory
 from optgraph.executor import DependencyAwareExecutor
 from optgraph.cost_tracker import CostTracker
 
 __all__ = [
-    "AdaptiveCheckpointSaver",
+    "MemoryState",
+    "compress_memory",
+    "get_context_with_memory",
     "DependencyAwareExecutor",
     "CostTracker",
 ]
