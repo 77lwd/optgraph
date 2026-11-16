@@ -1,0 +1,343 @@
+"""
+Week 2: Adaptive Context Compression
+Automatically compress checkpoint state to reduce token usage
+"""
+
+from langgraph.checkpoint.memory import MemorySaver
+from langchain_core.messages import BaseMessage, SystemMessage, HumanMessage, AIMessage
+from typing import List, Dict, Any, Optional
+from .token_tracker import TokenTracker
+import tiktoken
+
+
+class AdaptiveCheckpointSaver(MemorySaver):
+    """Checkpoint saver with adaptive context compression
+
+    Features:
+    - Token-based compression trigger (using real API token counts)
+    - LLM-based summarization for semantic compression
+    - Sliding window for recent context
+    - Compression statistics tracking
+    """
+
+    def __init__(self, threshold=4000, keep_recent=10, token_tracker: Optional[TokenTracker] = None,
+                 summarizer_llm=None):
+        """Initialize the adaptive checkpoint saver
+
+        Args:
+            threshold: Token count threshold to trigger compression
+            keep_recent: Number of recent messages to always keep
+            token_tracker: Optional TokenTracker instance for real token counting
+            summarizer_llm: LLM instance for generating summaries (if None, uses fallback strategy)
+        """
+        super().__init__()
+        self.threshold = threshold
+        self.keep_recent = keep_recent
+        self.token_tracker = token_tracker
+        self.summarizer_llm = summarizer_llm
+
+        # Initialize tiktoken encoder for accurate token counting
+        try:
+            self.encoder = tiktoken.get_encoding("cl100k_base")  # GPT-4/3.5 encoding
+        except Exception:
+            self.encoder = None
+
+        # Statistics tracking
+        self.stats = {
+            "total_compressions": 0,
+            "total_tokens_before": 0,
+            "total_tokens_after": 0,
+            "total_messages_before": 0,
+            "total_messages_after": 0,
+            "total_summary_calls": 0
+        }
+
+    def put(self, config, checkpoint, metadata, new_versions):
+        """Save checkpoint with compression if needed"""
+        # Compress before saving
+        checkpoint = self._maybe_compress(checkpoint)
+        return super().put(config, checkpoint, metadata, new_versions)
+
+    def _maybe_compress(self, checkpoint: Dict[str, Any]) -> Dict[str, Any]:
+        """Check if compression is needed and apply it
+
+        Args:
+            checkpoint: The checkpoint to potentially compress
+
+        Returns:
+            Compressed checkpoint if needed, otherwise original
+        """
+        # Extract channel values
+        channel_values = checkpoint.get("channel_values", {})
+        messages = channel_values.get("messages", [])
+
+        if not messages:
+            return checkpoint
+
+        # Count tokens
+        token_count = self._count_tokens(messages)
+
+        # Check if compression needed
+        if token_count > self.threshold:
+            print(f"\n[Compression] Token count {token_count} > {self.threshold}, compressing...")
+
+            # Track stats
+            messages_before = len(messages)
+            tokens_before = token_count
+
+            # Compress!
+            compressed_messages = self._compress(messages)
+
+            # Update checkpoint
+            checkpoint["channel_values"]["messages"] = compressed_messages
+
+            # Track stats
+            messages_after = len(compressed_messages)
+            tokens_after = self._count_tokens(compressed_messages)
+
+            self.stats["total_compressions"] += 1
+            self.stats["total_tokens_before"] += tokens_before
+            self.stats["total_tokens_after"] += tokens_after
+            self.stats["total_messages_before"] += messages_before
+            self.stats["total_messages_after"] += messages_after
+
+            print(f"[Compression] Compressed: {tokens_before} → {tokens_after} tokens "
+                  f"({messages_before} → {messages_after} messages)")
+
+        return checkpoint
+
+    def _compress(self, messages: List[BaseMessage]) -> List[BaseMessage]:
+        """Compression strategy: LLM summarization + sliding window
+
+        Strategy:
+        1. Keep recent N messages (sliding window)
+        2. Summarize older messages using LLM
+        3. Return: [summary_message] + recent_messages
+
+        Args:
+            messages: List of messages to compress
+
+        Returns:
+            Compressed list of messages
+        """
+        if len(messages) <= self.keep_recent:
+            return messages
+
+        # Split into old and recent
+        old_messages = messages[:-self.keep_recent]
+        recent_messages = messages[-self.keep_recent:]
+
+        # Check if there's already a summary message at the beginning
+        existing_summary = None
+        if old_messages and hasattr(old_messages[0], 'type') and old_messages[0].type == 'system':
+            content = str(old_messages[0].content)
+            if content.startswith('Previous conversation summary:') or content.startswith('[Context Summary]'):
+                # Extract existing summary and remove it from old_messages
+                existing_summary = old_messages[0]
+                old_messages = old_messages[1:]
+
+        # Generate summary of old messages
+        if self.summarizer_llm:
+            try:
+                summary_text = self._summarize_with_llm(old_messages, existing_summary)
+                # Use natural system message format without prefix
+                summary_message = SystemMessage(content="Previous conversation summary:\n\n{}".format(summary_text))
+                self.stats["total_summary_calls"] += 1
+                print("[Compression] Generated summary: {}".format(summary_text[:200]))  # Print first 200 chars
+            except Exception as e:
+                print("[Compression] Summary generation failed: {}, using fallback".format(str(e)))
+                # Fallback: keep important messages
+                summary_message = self._fallback_compress(old_messages, existing_summary)
+        else:
+            # No LLM available, use fallback
+            summary_message = self._fallback_compress(old_messages, existing_summary)
+
+        # Return: summary + recent messages
+        if summary_message:
+            return [summary_message] + recent_messages
+        else:
+            return recent_messages
+
+    def _summarize_with_llm(self, old_messages: List[BaseMessage], existing_summary=None) -> str:
+        """Generate summary of old messages using LLM
+
+        Args:
+            old_messages: Messages to summarize
+            existing_summary: Previous summary message if exists
+
+        Returns:
+            Summary text (concise, under 200 tokens)
+        """
+        # Always include FIRST message (very likely contains user intro)
+        # Plus a few recent messages for context
+        messages_to_summarize = []
+
+        if len(old_messages) <= 10:
+            messages_to_summarize = old_messages
+        else:
+            # First 3 messages (user intro) + last 3 messages (recent context)
+            messages_to_summarize = old_messages[:3] + old_messages[-3:]
+
+        # Format messages
+        conversation_text = ""
+        for msg in messages_to_summarize:
+            role = "User" if isinstance(msg, HumanMessage) else "Assistant"
+            content = str(msg.content)[:150]
+            conversation_text += "{}: {}\n".format(role, content)
+
+        # Build prompt based on whether we have existing summary
+        if existing_summary:
+            prev_summary = str(existing_summary.content).replace('Previous conversation summary:\n\n', '').strip()
+
+            prompt = """You have a previous summary and new messages. Produce ONE consolidated summary under 80 words.
+
+CRITICAL: Always preserve the user's name, location, and preferences from the previous summary.
+
+Previous summary:
+{}
+
+New messages:
+{}
+
+Updated summary (under 80 words, preserve name/location/preferences):""".format(prev_summary, conversation_text)
+        else:
+            prompt = """Summarize this conversation in under 80 words. Extract:
+- User's name, location, preferences
+- Key discussion points
+
+Conversation:
+{}
+
+Summary (under 80 words):""".format(conversation_text)
+
+        # Call LLM with strict length limit
+        limited_llm = self.summarizer_llm.bind(max_tokens=120)
+        response = limited_llm.invoke(prompt)
+
+        # Extract and validate response
+        if hasattr(response, 'content'):
+            summary = str(response.content).strip()
+        else:
+            summary = str(response).strip()
+
+        # Safety: if summary is empty or too short, keep old summary
+        if not summary or len(summary) < 10:
+            if existing_summary:
+                return str(existing_summary.content).replace('Previous conversation summary:\n\n', '').strip()
+            else:
+                return "No summary available."
+
+        return summary
+
+    def _fallback_compress(self, old_messages: List[BaseMessage], existing_summary=None):
+        """Fallback compression when LLM is not available
+
+        Keep important messages (system, errors, tool calls)
+
+        Args:
+            old_messages: Messages to compress
+            existing_summary: Previous summary if exists
+
+        Returns:
+            Summary message or None
+        """
+        important_messages = [msg for msg in old_messages if self._is_important(msg)]
+
+        if existing_summary:
+            # Merge with existing summary
+            old_content = str(existing_summary.content).replace('[Context Summary] ', '')
+            new_items = []
+            for msg in important_messages:
+                new_items.append(str(msg.content))
+
+            if new_items:
+                merged_content = "{}\n\nAdditional: {}".format(old_content, "; ".join(new_items))
+            else:
+                merged_content = old_content
+
+            return SystemMessage(content="[Context Summary] {}".format(merged_content))
+        elif important_messages:
+            # Create new summary from important messages
+            items = [str(msg.content) for msg in important_messages]
+            return SystemMessage(content="[Context Summary] {}".format("; ".join(items)))
+        else:
+            return None
+
+    def _is_important(self, message: BaseMessage) -> bool:
+        """Determine if a message is important
+
+        Important messages:
+        - System messages
+        - Messages with tool calls
+        - Messages containing errors
+
+        Args:
+            message: The message to check
+
+        Returns:
+            True if message is important, False otherwise
+        """
+        # System messages are important
+        if hasattr(message, 'type') and message.type == 'system':
+            return True
+
+        # Messages with tool calls are important
+        if hasattr(message, 'tool_calls') and message.tool_calls:
+            return True
+
+        # Messages with errors are important
+        content = str(message.content).lower()
+        if 'error' in content or 'exception' in content or 'failed' in content:
+            return True
+
+        return False
+
+    def _count_tokens(self, messages: List[BaseMessage]) -> int:
+        """Count total tokens in messages using tiktoken
+
+        Uses tiktoken for accurate token counting. Falls back to
+        character-based estimation if tiktoken is unavailable.
+
+        Args:
+            messages: List of messages
+
+        Returns:
+            Token count
+        """
+        if self.encoder:
+            # Accurate token counting with tiktoken
+            total = 0
+            for msg in messages:
+                content = str(msg.content)
+                total += len(self.encoder.encode(content))
+            return total
+        else:
+            # Fall back to estimation: 1 token ≈ 4 chars
+            total = 0
+            for msg in messages:
+                content = str(msg.content)
+                total += len(content) // 4
+            return total
+
+    def get_compression_stats(self) -> Dict[str, Any]:
+        """Get compression statistics
+
+        Returns:
+            Dictionary containing compression statistics
+        """
+        stats = self.stats.copy()
+
+        if stats["total_compressions"] > 0:
+            avg_reduction = (
+                (stats["total_tokens_before"] - stats["total_tokens_after"])
+                / stats["total_tokens_before"] * 100
+            )
+            stats["avg_token_reduction_percent"] = round(avg_reduction, 2)
+        else:
+            stats["avg_token_reduction_percent"] = 0.0
+
+        stats["threshold"] = self.threshold
+        stats["keep_recent"] = self.keep_recent
+        stats["total_summary_calls"] = self.stats.get("total_summary_calls", 0)
+
+        return stats

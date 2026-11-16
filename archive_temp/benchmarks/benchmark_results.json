@@ -1,0 +1,59 @@
+{
+  "timestamp": "2026-11-12T19:49:23.006979",
+  "tests": [
+    {
+      "test": "memory_retention",
+      "use_compression": false,
+      "rounds": 16,
+      "remembers_name": true,
+      "remembers_city": true,
+      "quality_score": 1.0,
+      "total_compressions": 0,
+      "token_reduction_percent": 0.0,
+      "elapsed_time": 138.44
+    },
+    {
+      "test": "memory_retention",
+      "use_compression": true,
+      "rounds": 16,
+      "remembers_name": false,
+      "remembers_city": false,
+      "quality_score": 0.0,
+      "total_compressions": 38,
+      "token_reduction_percent": 4.73,
+      "elapsed_time": 158.45
+    },
+    {
+      "test": "comparison",
+      "num_rounds": 30,
+      "baseline": {
+        "test": "long_conversation",
+        "use_compression": false,
+        "rounds": 30,
+        "total_compressions": 0,
+        "tokens_before": 0,
+        "tokens_after": 0,
+        "token_reduction_percent": 0.0,
+        "elapsed_time": 231.64,
+        "avg_time_per_round": 7.721
+      },
+      "compressed": {
+        "test": "long_conversation",
+        "use_compression": true,
+        "rounds": 30,
+        "total_compressions": 85,
+        "tokens_before": 2933897,
+        "tokens_after": 2933378,
+        "token_reduction_percent": 0.02,
+        "elapsed_time": 638.76,
+        "avg_time_per_round": 21.292
+      },
+      "improvements": {
+        "compressions": 85,
+        "token_reduction_percent": 0.02,
+        "time_difference": -407.12,
+        "time_change_percent": -175.76
+      }
+    }
+  ]
+}

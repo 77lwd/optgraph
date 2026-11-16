@@ -1,0 +1,429 @@
+OptGraph Memory System - Test Report
+======================================================================
+
+Date: 2026-11-14 13:11:18
+Total duration: 1035.2s
+
+
+======================================================================
+Test: Stability Test (10 runs)
+File: tests/test_stability.py
+Status: PASS
+Duration: 407.9s
+
+Output:
+======================================================================
+Stability Test: 10 runs
+======================================================================
+
+[Run 1/10] Testing...
+[Memory] Extracted profile: {'name': 'Alice', 'location': 'Beijing', 'preferences': ['Python']}
+[Memory] Compression: 12 → 5 messages
+[Memory] Summary: No summary available....
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: No summary available....
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: No summary available....
+  Quality: 100.0% (Alice: True, Beijing: True, Python: True)
+
+[Run 2/10] Testing...
+[Memory] Extracted profile: {'name': 'Alice', 'location': 'Beijing', 'preferences': ['Python']}
+[Memory] Compression: 12 → 5 messages
+[Memory] Summary: No summary available....
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: No summary available....
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: Alice (Beijing) has defined only three topics: her name, Beijing, and Python. She repeatedly asked f...
+  Quality: 100.0% (Alice: True, Beijing: True, Python: True)
+
+[Run 3/10] Testing...
+[Memory] Extracted profile: {'name': 'Alice', 'location': 'Beijing', 'preferences': ['Python']}
+[Memory] Compression: 12 → 5 messages
+[Memory] Summary: No summary available....
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: No summary available....
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: No summary available....
+  Quality: 100.0% (Alice: True, Beijing: True, Python: True)
+
+[Run 4/10] Testing...
+[Memory] Extracted profile: {'name': 'Alice', 'location': 'Beijing', 'preferences': ['Python']}
+[Memory] Compression: 12 → 5 messages
+[Memory] Summary: Alice, from Beijing, loves Python programming. She repeatedly asked for facts about undefined “topic...
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: Alice, from Beijing, loves Python programming. She repeatedly asked for facts about undefined “topic...
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: Alice, from Beijing, loves Python programming. She repeatedly asked for facts about undefined “topic...
+  Quality: 100.0% (Alice: True, Beijing: True, Python: True)
+
+[Run 5/10] Testing...
+[Memory] Extracted profile: {'name': 'Alice', 'location': 'Beijing', 'preferences': ['Python']}
+[Memory] Compression: 12 → 5 messages
+[Memory] Summary: Alice from Beijing loves Python programming. She asked for facts about “topic 2,” “topic 3,” and “to...
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: Alice from Beijing loves Python programming. She asked for facts about “topic 2,” “topic 3,” and “to...
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: Alice from Beijing loves Python programming. She asked for facts about “topic 2,” “topic 3,” and “to...
+  Quality: 100.0% (Alice: True, Beijing: True, Python: True)
+
+[Run 6/10] Testing...
+[Memory] Extracted profile: {'name': 'Alice', 'location': 'Beijing', 'preferences': ['Python']}
+[Memory] Compression: 12 → 5 messages
+[Memory] Summary: No summary available....
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: User repeatedly asked for facts about numbered “topics” 4–7, but no topic list or definitions exist ...
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: User repeatedly asked for facts about numbered “topics” 4–7, but no topic list or definitions exist ...
+  Quality: 100.0% (Alice: True, Beijing: True, Python: True)
+
+[Run 7/10] Testing...
+[Memory] Extracted profile: {'name': 'Alice', 'location': 'Beijing', 'preferences': ['Python']}
+[Memory] Compression: 12 → 5 messages
+[Memory] Summary: Alice is in Beijing and loves Python programming. The conversation centered on her requests for fact...
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: Alice is in Beijing and loves Python programming. She repeatedly asked for facts about “topic 2” thr...
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: Alice is in Beijing and loves Python programming. She repeatedly asked for facts about “topic 2” thr...
+  Quality: 100.0% (Alice: True, Beijing: True, Python: True)
+
+[Run 8/10] Testing...
+[Memory] Extracted profile: {'name': 'Alice', 'location': 'Beijing', 'preferences': ['Python']}
+[Memory] Compression: 12 → 5 messages
+[Memory] Summary: Alice, from Beijing, loves Python programming. She requested facts about “topic 2,” “topic 3,” and “...
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: Alice, from Beijing, loves Python programming. She requested facts about “topic 2,” “topic 3,” and “...
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: Alice, from Beijing, loves Python programming. She requested facts about “topic 2” through “topic 10...
+  Quality: 100.0% (Alice: True, Beijing: True, Python: True)
+
+[Run 9/10] Testing...
+[Memory] Extracted profile: {'name': 'Alice', 'location': 'Beijing', 'preferences': ['Python']}
+[Memory] Compression: 12 → 5 messages
+[Memory] Summary: Alice, from Beijing, loves Python programming. She requested facts about undefined “topic 2,” “topic...
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: Alice, from Beijing, loves Python programming. She requested facts about undefined “topic 2,” “topic...
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: Alice, from Beijing, loves Python programming. She requested facts about undefined “topic 2,” “topic...
+  Quality: 100.0% (Alice: True, Beijing: True, Python: True)
+
+[Run 10/10] Testing...
+[Memory] Extracted profile: {'name': 'Alice', 'location': 'Beijing', 'preferences': ['Python']}
+[Memory] Compression: 12 → 5 messages
+[Memory] Summary: Alice, based in Beijing, loves Python programming. She asked for facts about undefined “topic 2,” “t...
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: Alice, based in Beijing, loves Python programming. She asked for facts about undefined “topic 2,” “t...
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: Alice, based in Beijing, loves Python programming. She asked for facts about undefined “topic 2,” “t...
+  Quality: 100.0% (Alice: True, Beijing: True, Python: True)
+
+======================================================================
+Summary
+======================================================================
+Total runs: 10
+Successful (100%): 10
+Failed (<100%): 0
+Success rate: 100.0%
+
+Average quality: 100.0%
+======================================================================
+
+======================================================================
+Test: Long Conversation Test (50 rounds)
+File: tests/test_long_conversation.py
+Status: PASS
+Duration: 153.5s
+
+Output:
+======================================================================
+Long Conversation Test: 50 rounds
+======================================================================
+Config: max_messages=20, keep_recent=10
+
+[Round 1] User introduces themselves...
+
+[Rounds 2-49] Filler conversation...
+  [Round 10] Progress...
+[Memory] Extracted profile: {'name': 'Alice', 'location': 'Beijing', 'preferences': ['Python']}
+[Memory] Compression: 22 → 10 messages
+[Memory] Summary: Alice, in Beijing, loves Python programming. She repeatedly asked for interesting facts about “topic...
+    [Compression triggered] Messages: 22 → 10
+[Memory] Compression: 22 → 10 messages
+[Memory] Summary: Alice, in Beijing, loves Python programming. She asked for interesting facts about “topic 2” through...
+    [Compression triggered] Messages: 22 → 10
+  [Round 20] Progress...
+[Memory] Compression: 22 → 10 messages
+[Memory] Summary: Alice, in Beijing, loves Python programming. She asked for interesting facts about “topic 2” through...
+    [Compression triggered] Messages: 22 → 10
+[Memory] Compression: 22 → 10 messages
+[Memory] Summary: Alice, in Beijing, loves Python programming. She asked for interesting facts about “topic 2” through...
+    [Compression triggered] Messages: 22 → 10
+  [Round 30] Progress...
+[Memory] Compression: 22 → 10 messages
+[Memory] Summary: Alice, in Beijing, loves Python programming. She asked for interesting facts about “topic 2” through...
+    [Compression triggered] Messages: 22 → 10
+  [Round 40] Progress...
+[Memory] Compression: 22 → 10 messages
+[Memory] Summary: Alice, in Beijing, loves Python programming. She asked for interesting facts about “topic 2” through...
+    [Compression triggered] Messages: 22 → 10
+[Memory] Compression: 22 → 10 messages
+[Memory] Summary: Alice, in Beijing, loves Python programming. She asked for facts about topics 2–12 and 37–42, but ne...
+    [Compression triggered] Messages: 22 → 10
+
+[Round 50] Testing recall...
+
+Agent's response:
+Your name is Alice, you live in Beijing, and your hobby is Python programming.
+
+======================================================================
+Quality Check
+======================================================================
+  Contains 'Alice': True
+  Contains 'Beijing': True
+  Contains 'Python': True
+  Quality: 100.0%
+
+======================================================================
+Final State
+======================================================================
+  Messages: 16
+  Summary: Alice, in Beijing, loves Python programming. She asked for facts about topics 2–12 and 37–42, but never defined a topic list. The assistant repeatedly...
+  User Profile: {'name': 'Alice', 'location': 'Beijing', 'preferences': ['Python']}
+
+======================================================================
+[OK] SUCCESS: 100% quality after 50 rounds
+======================================================================
+
+======================================================================
+Test: Efficiency Comparison
+File: tests/test_efficiency.py
+Status: PASS
+Duration: 163.5s
+
+Output:
+======================================================================
+Efficiency Comparison: 30 rounds
+======================================================================
+
+[Test 1] Baseline: No compression
+----------------------------------------------------------------------
+  Time: 76.74s
+  Total tokens: 28,769
+  Total requests: 31
+  Avg tokens/request: 928
+  Quality: 100.0%
+
+[Test 2] With Memory Compression
+----------------------------------------------------------------------
+[Memory] Extracted profile: {'name': 'Alice', 'location': 'Beijing', 'preferences': ['Python']}
+[Memory] Compression: 22 → 10 messages
+[Memory] Summary: - **User:** Alice, lives in Beijing; loves Python programming.
+- **Key topics:** Repeated requests f...
+[Memory] Compression: 22 → 10 messages
+[Memory] Summary: - **User:** Alice, lives in Beijing; loves Python programming.
+- **Key topics:** Repeated requests f...
+[Memory] Compression: 22 → 10 messages
+[Memory] Summary: - **User:** Alice, lives in Beijing; loves Python programming.
+- **Key topics:** Repeated requests f...
+[Memory] Compression: 22 → 10 messages
+[Memory] Summary: - **User:** Alice, lives in Beijing; loves Python programming.
+- **Key topics:** Repeated requests f...
+  Time: 84.58s
+  Total tokens: 18,886
+  Total requests: 35
+  Avg tokens/request: 540
+  Quality: 100.0%
+
+======================================================================
+Comparison
+======================================================================
+Token savings: +34.4%
+Time difference: +10.2%
+Quality difference: +0.0%
+
+======================================================================
+[OK] SUCCESS: 34.4% token savings with 100% quality
+======================================================================
+
+======================================================================
+Test: Edge Cases Test
+File: tests/test_edge_cases.py
+Status: PASS
+Duration: 214.0s
+
+Output:
+======================================================================
+Edge Cases Test
+======================================================================
+
+[Edge Case 1] No self-introduction
+----------------------------------------------------------------------
+[Memory] Extracted profile: {}
+[Memory] Compression: 12 → 5 messages
+[Memory] Summary: No user name, location, or preferences were...
+[Memory] Extracted profile: {}
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: No name, location, or preferences were provided. The user repeatedly asked about topics 4 through 7,...
+[Memory] Extracted profile: {}
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: No name, location, or preferences were provided. The user repeatedly asked about topics 4 through 10...
+  Response: I don't know—your name hasn't been provided in this conversation. If you tell me, I'll use it....
+  Correct behavior: True (should say 'don't know')
+
+[Edge Case 2] Name at end of sentence
+----------------------------------------------------------------------
+[Memory] Extracted profile: {'name': 'Alice'}
+[Memory] Compression: 12 → 5 messages
+[Memory] Summary: No summary available....
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: No summary available....
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: Alice repeatedly asked about “topic 7,” “topic 8,” “topic 9,” and “topic 10,” but no topic list or n...
+  Response: Your name is Alice....
+  Contains 'Alice': True
+
+[Edge Case 3] Multiple preferences
+----------------------------------------------------------------------
+[Memory] Extracted profile: {'name': 'Bob', 'preferences': ['Python', 'Java', 'Javascript']}
+[Memory] Compression: 12 → 5 messages
+[Memory] Summary: Bob (location not provided) prefers Python, Java, and JavaScript. He asked about “topic 2,” “topic 3...
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: Bob (location not provided) prefers Python, Java, and JavaScript. He has repeatedly asked about unde...
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: Bob (location not provided) prefers Python, Java, and JavaScript. He has repeatedly asked about unde...
+  Response: You told me you love **Python, Java, and JavaScript**....
+  Contains Python: True
+  Contains Java*: True
+
+[Edge Case 4] Information update
+----------------------------------------------------------------------
+[Memory] Extracted profile: {'name': 'Alice'}
+[Memory] Compression: 12 → 5 messages
+[Memory] Summary: Alice from Beijing; no preferences stated. She repeatedly asked about “...
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: Alice in Beijing; no preferences stated. She keeps asking about numbered topics (“topic 4,” then 5, ...
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: Alice in Beijing; no preferences stated. She keeps asking about numbered topics (“topic 4,” then 5, ...
+  Response: You told me you’re in Shanghai (you’d previously said Beijing)....
+  Contains Shanghai: True
+  Contains Beijing (old): True
+  Behavior: Partial/Mixed
+
+[Edge Case 5] Very long introduction
+----------------------------------------------------------------------
+[Memory] Extracted profile: {'name': 'Alice', 'location': 'Beijing', 'preferences': ['Python', 'Java', 'Javascript', 'Typescript', 'Go', 'Rust']}
+[Memory] Compression: 12 → 5 messages
+[Memory] Summary: No summary available....
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: No summary available....
+[Memory] Compression: 11 → 5 messages
+[Memory] Summary: **Consolidated summary:** No user name, location, or preferences have been stated yet. The only list...
+  Response: Your name is **Alice**, and you live in **Beijing**....
+  Contains Alice: True
+  Contains Beijing: True
+
+======================================================================
+Summary
+======================================================================
+Passed: 5/5
+  [OK] PASS: no_introduction
+  [OK] PASS: name_at_end
+  [OK] PASS: multiple_preferences
+  [OK] PASS: info_update
+  [OK] PASS: long_introduction
+======================================================================
+
+======================================================================
+Test: Model Comparison
+File: tests/test_model_comparison.py
+Status: PASS
+Duration: 7.3s
+
+Output:
+======================================================================
+Model Comparison: SystemMessage Support
+======================================================================
+
+[DeepSeek v4.1 Flash]
+----------------------------------------------------------------------
+Test 1: Direct SystemMessage
+  Response: I don’t know—you haven’t shared your name, city, or hobby. Tell me and I’ll remember for this conver...
+  Quality: 0% (Alice: False, Beijing: False, Python: False)
+
+Test 2: SystemMessage + filler messages
+  Response: I don’t know—you haven’t told me your name, city, or hobby. If you share them, I can remember them f...
+  Quality: 0% (Alice: False, Beijing: False, Python: False)
+
+Result: [FAIL] Does NOT support SystemMessage
+  Average quality: 0%
+
+======================================================================
+Summary
+======================================================================
+  [FAIL] DeepSeek v4.1 Flash: 0% quality
+
+======================================================================
+Recommendation:
+======================================================================
+[FAIL] No models support SystemMessage reliably.
+   Use fake conversation injection for all models.
+======================================================================
+
+======================================================================
+Test: Memory Overhead Analysis
+File: tests/test_memory_overhead.py
+Status: PASS
+Duration: 89.1s
+
+Output:
+======================================================================
+Memory Overhead Analysis
+======================================================================
+
+Running 30 rounds...
+[Memory] Extracted profile: {'name': 'Alice', 'location': 'Beijing', 'preferences': ['Python']}
+[Memory] Compression: 22 → 10 messages
+[Memory] Summary: No summary available....
+[Memory] Compression: 22 → 10 messages
+[Memory] Summary: No summary available....
+[Memory] Compression: 22 → 10 messages
+[Memory] Summary: No summary available....
+[Memory] Compression: 22 → 10 messages
+[Memory] Summary: User Alice, in Beijing,...
+
+======================================================================
+Context Size Over Time
+======================================================================
+
+Round      Messages     Est. Tokens     Notes
+----------------------------------------------------------------------
+1          1            71              Initial
+5          9            1,026           
+10         19           2,110           
+12         15           1,252           [WARN] Compression
+15         21           1,882           
+18         15           1,224           [WARN] Compression
+20         19           1,640           
+24         15           1,224           [WARN] Compression
+25         17           1,432           
+30         15           1,240           [WARN] Compression
+
+======================================================================
+Statistics
+======================================================================
+Average messages per request: 16.5
+Average tokens per request: 1,539
+Max messages: 25
+Max tokens: 2,334
+Min messages (after compression): 1
+Min tokens (after compression): 71
+
+======================================================================
+Fake Conversation Overhead
+======================================================================
+Extra messages injected: 2
+Extra tokens per request: ~22
+Percentage overhead: 1.4% of average context
+
+======================================================================
+[OK] LOW overhead: Fake conversation adds only ~1.4% to context
+======================================================================

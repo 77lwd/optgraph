@@ -1,0 +1,204 @@
+{
+  "timestamp": "2026-11-13T15:43:46.832024",
+  "threshold": 2000,
+  "test_design": {
+    "rounds": 50,
+    "info_round": 1,
+    "test_round": 50,
+    "repetitions_per_config": 3
+  },
+  "results": [
+    {
+      "keep_recent": 5,
+      "threshold": 2000,
+      "repetitions": 3,
+      "avg_quality_score": 0.0,
+      "avg_compressions": 1.0,
+      "name_remembered_count": 0,
+      "city_remembered_count": 0,
+      "hobby_remembered_count": 0,
+      "individual_results": [
+        {
+          "run_id": 1,
+          "threshold": 2000,
+          "keep_recent": 5,
+          "remembers_name": false,
+          "remembers_city": false,
+          "remembers_hobby": false,
+          "quality_score": 0.0,
+          "compressions": 1,
+          "total_tokens": 60143,
+          "response_sample": "i don\u2019t know\u2014you haven\u2019t told me your name, where you live, or what you love in this conversation, and i don\u2019t have access to personal details beyond what\u2019s shared here. if you tell me, i can remember"
+        },
+        {
+          "run_id": 2,
+          "threshold": 2000,
+          "keep_recent": 5,
+          "remembers_name": false,
+          "remembers_city": false,
+          "remembers_hobby": false,
+          "quality_score": 0.0,
+          "compressions": 1,
+          "total_tokens": 58203,
+          "response_sample": "i don't have any of that. you never told me your name, where you live, or what you love in this conversation\u2014and i don't have memory of past chats or access to personal details.\n\nif you'd like, tell m"
+        },
+        {
+          "run_id": 3,
+          "threshold": 2000,
+          "keep_recent": 5,
+          "remembers_name": false,
+          "remembers_city": false,
+          "remembers_hobby": false,
+          "quality_score": 0.0,
+          "compressions": 1,
+          "total_tokens": 59848,
+          "response_sample": "i don\u2019t have that information. nothing in our conversation has told me your name, where you live, or what you love\u2014and i don\u2019t have memory of you beyond this chat. if you tell me, i can keep it in min"
+        }
+      ]
+    },
+    {
+      "keep_recent": 10,
+      "threshold": 2000,
+      "repetitions": 3,
+      "avg_quality_score": 0.0,
+      "avg_compressions": 1.0,
+      "name_remembered_count": 0,
+      "city_remembered_count": 0,
+      "hobby_remembered_count": 0,
+      "individual_results": [
+        {
+          "run_id": 1,
+          "threshold": 2000,
+          "keep_recent": 10,
+          "remembers_name": false,
+          "remembers_city": false,
+          "remembers_hobby": false,
+          "quality_score": 0.0,
+          "compressions": 1,
+          "total_tokens": 59928,
+          "response_sample": "i don\u2019t know\u2014you haven\u2019t shared your name, where you live, or what you love in this conversation. if you tell me, i can remind you later in the chat."
+        },
+        {
+          "run_id": 2,
+          "threshold": 2000,
+          "keep_recent": 10,
+          "remembers_name": false,
+          "remembers_city": false,
+          "remembers_hobby": false,
+          "quality_score": 0.0,
+          "compressions": 1,
+          "total_tokens": 59645,
+          "response_sample": "i don\u2019t have that information\u2014you haven\u2019t told me your name, where you live, or what you love in this conversation. if you share them, i can remember them for the rest of our chat."
+        },
+        {
+          "run_id": 3,
+          "threshold": 2000,
+          "keep_recent": 10,
+          "remembers_name": false,
+          "remembers_city": false,
+          "remembers_hobby": false,
+          "quality_score": 0.0,
+          "compressions": 1,
+          "total_tokens": 59266,
+          "response_sample": "i don\u2019t know\u2014you haven\u2019t shared your name, where you live, or what you love in this conversation, and i don\u2019t have personal details about you beyond what you tell me here. if you share them, i can ref"
+        }
+      ]
+    },
+    {
+      "keep_recent": 15,
+      "threshold": 2000,
+      "repetitions": 3,
+      "avg_quality_score": 0.0,
+      "avg_compressions": 1.3333333333333333,
+      "name_remembered_count": 0,
+      "city_remembered_count": 0,
+      "hobby_remembered_count": 0,
+      "individual_results": [
+        {
+          "run_id": 1,
+          "threshold": 2000,
+          "keep_recent": 15,
+          "remembers_name": false,
+          "remembers_city": false,
+          "remembers_hobby": false,
+          "quality_score": 0.0,
+          "compressions": 1,
+          "total_tokens": 63106,
+          "response_sample": "i don\u2019t know any of those things \u2014 you haven\u2019t told me your name, where you live, or what you love in this conversation, and i don\u2019t have memory of past chats with you.\n\nif you tell me, i can hold ont"
+        },
+        {
+          "run_id": 2,
+          "threshold": 2000,
+          "keep_recent": 15,
+          "remembers_name": false,
+          "remembers_city": false,
+          "remembers_hobby": false,
+          "quality_score": 0.0,
+          "compressions": 1,
+          "total_tokens": 61485,
+          "response_sample": "i don\u2019t know\u2014you haven\u2019t shared your name, where you live, or what you love in this conversation. if you tell me, i can remind you later in the chat."
+        },
+        {
+          "run_id": 3,
+          "threshold": 2000,
+          "keep_recent": 15,
+          "remembers_name": false,
+          "remembers_city": false,
+          "remembers_hobby": false,
+          "quality_score": 0.0,
+          "compressions": 2,
+          "total_tokens": 62809,
+          "response_sample": "i don't have any of that. you haven't told me your name, where you live, or what you love in this conversation\u2014it's been entirely trivia facts (the dewey headline, school, penicillin, the eiffel tower"
+        }
+      ]
+    },
+    {
+      "keep_recent": 20,
+      "threshold": 2000,
+      "repetitions": 3,
+      "avg_quality_score": 0.0,
+      "avg_compressions": 1.0,
+      "name_remembered_count": 0,
+      "city_remembered_count": 0,
+      "hobby_remembered_count": 0,
+      "individual_results": [
+        {
+          "run_id": 1,
+          "threshold": 2000,
+          "keep_recent": 20,
+          "remembers_name": false,
+          "remembers_city": false,
+          "remembers_hobby": false,
+          "quality_score": 0.0,
+          "compressions": 1,
+          "total_tokens": 62779,
+          "response_sample": "i don\u2019t know\u2014you haven\u2019t told me your name, where you live, or what you love in this conversation. if you share them, i can remember them for the rest of our chat."
+        },
+        {
+          "run_id": 2,
+          "threshold": 2000,
+          "keep_recent": 20,
+          "remembers_name": false,
+          "remembers_city": false,
+          "remembers_hobby": false,
+          "quality_score": 0.0,
+          "compressions": 1,
+          "total_tokens": 62359,
+          "response_sample": "i don\u2019t have that information\u2014you haven\u2019t shared your name, where you live, or what you love in this conversation, and i can\u2019t recall personal details from outside it. if you tell me, i can keep track"
+        },
+        {
+          "run_id": 3,
+          "threshold": 2000,
+          "keep_recent": 20,
+          "remembers_name": false,
+          "remembers_city": false,
+          "remembers_hobby": false,
+          "quality_score": 0.0,
+          "compressions": 1,
+          "total_tokens": 62314,
+          "response_sample": "i don\u2019t have that information\u2014you haven\u2019t told me your name, where you live, or what you love in this conversation, and i don\u2019t have access to personal details about you. if you share them, i can keep"
+        }
+      ]
+    }
+  ]
+}

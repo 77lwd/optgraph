@@ -1,0 +1,22 @@
+OptGraph Memory System - Test Report
+======================================================================
+
+Date: 2026-11-14 13:11:18
+Total duration: 1035.2s
+
+
+======================================================================
+Test: Stability Test (10 runs)
+File: tests/test_stability.py
+Status: PASS
+Duration: 407.9s
+
+Output:
+======================================================================
+Stability Test: 10 runs
+======================================================================
+
+[Run 1/10] Testing...
+[Memory] Extracted profile: {'name': 'Alice', 'location': 'Beijing', 'preferences': ['Python']}
+[Memory] Compression: 12 鈫
+iconv: test_report_1794633078.txt:21:27: cannot convert
