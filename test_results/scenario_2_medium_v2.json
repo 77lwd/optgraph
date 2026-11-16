@@ -1,0 +1,25 @@
+{
+  "scenario": "Scenario 2: Medium (30 rounds)",
+  "version": "memory_v2.0",
+  "rounds": 30,
+  "timestamp": 1794815953.9192526,
+  "baseline": {
+    "tokens": 168488,
+    "requests": 30,
+    "time": 171.92834329605103
+  },
+  "memory_v2": {
+    "tokens": 60963,
+    "requests": 35,
+    "time": 164.85531973838806
+  },
+  "comparison": {
+    "token_difference": -107525,
+    "token_change_percent": -63.817601253501735,
+    "time_overhead_percent": -4.11393690072591
+  },
+  "quality": {
+    "baseline_percent": 100.0,
+    "memory_v2_percent": 100.0
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "scenario": "Short Conversation (10 rounds)",
+  "rounds": 10,
+  "timestamp": 1794715231.18292,
+  "baseline": {
+    "tokens": 4205,
+    "requests": 10,
+    "time": 26.312947034835815
+  },
+  "memory": {
+    "tokens": 4446,
+    "requests": 10,
+    "time": 26.875271558761597
+  },
+  "savings": {
+    "token_reduction_percent": -5.73127229488704,
+    "time_overhead_percent": 2.1370640209221627
+  },
+  "quality": {
+    "baseline_percent": 100.0,
+    "memory_percent": 100.0
+  }
+}

@@ -174,18 +174,67 @@ Summary (under 80 words):"""
         return existing_summary if existing_summary else "No summary available."
 
 
+def estimate_tokens(messages: Sequence[BaseMessage]) -> int:
+    """Estimate token count for messages
+
+    Simple estimation: ~4 characters = 1 token
+
+    Args:
+        messages: Messages to estimate
+
+    Returns:
+        Estimated token count
+    """
+    total_chars = sum(len(str(m.content)) for m in messages)
+    return total_chars // 4
+
+
+def should_skip_compression(
+    messages_to_delete: Sequence[BaseMessage],
+    summary_overhead: int = 250
+) -> tuple[bool, str]:
+    """Determine if compression should be skipped
+
+    Adaptive strategy: Skip compression if the cost outweighs the benefit.
+
+    Args:
+        messages_to_delete: Messages that would be deleted
+        summary_overhead: Estimated token cost of generating summary
+
+    Returns:
+        (should_skip, reason)
+    """
+    if not messages_to_delete:
+        return True, "No messages to delete"
+
+    # Calculate average message length
+    avg_tokens = estimate_tokens(messages_to_delete) / len(messages_to_delete)
+
+    # Strategy 1: Skip if messages are too short
+    if avg_tokens < 80:
+        return True, f"Avg message too short ({avg_tokens:.1f} tokens < 80 threshold)"
+
+    # Strategy 2: Skip if deletion benefit < summary cost * 1.2 (20% safety margin)
+    deletion_benefit = estimate_tokens(messages_to_delete)
+    if deletion_benefit < summary_overhead * 1.2:
+        return True, f"Benefit ({deletion_benefit}) < Cost ({summary_overhead}*1.2)"
+
+    return False, f"Worth compressing: {deletion_benefit} tokens saved"
+
+
 def compress_memory(
     state: MemoryState,
     summarizer_llm,
     keep_recent: int = 10
 ) -> dict:
-    """Compress conversation memory
+    """Compress conversation memory with adaptive strategy
 
-    Based on LangGraph official pattern:
+    Based on LangGraph official pattern + adaptive optimization:
     1. Extract user profile (deterministic, never lost)
-    2. Generate summary of old messages (LLM)
-    3. Delete old messages except recent N (RemoveMessage)
-    4. Keep summary + recent messages
+    2. Check if compression is worth it (NEW: adaptive strategy)
+    3. Generate summary of old messages (LLM) or skip if not worth it
+    4. Delete old messages except recent N (RemoveMessage)
+    5. Keep summary + recent messages
 
     Args:
         state: Current state
@@ -213,7 +262,20 @@ def compress_memory(
     old_messages = messages[:-keep_recent]
     recent_messages = messages[-keep_recent:]
 
-    # 3. Generate summary of old messages
+    # 3. Adaptive strategy: Check if compression is worth it
+    skip, reason = should_skip_compression(old_messages)
+
+    if skip:
+        print(f"[Memory] Skipping compression: {reason}")
+        # Still delete old messages to save tokens, but don't generate summary
+        delete_messages = [RemoveMessage(id=m.id) for m in old_messages]
+        return {
+            "user_profile": profile,
+            "messages": delete_messages
+            # Note: summary is NOT updated, preserving existing one
+        }
+
+    # 4. Generate summary of old messages (worth the cost)
     new_summary = create_summary_with_llm(
         old_messages,
         existing_summary,
@@ -221,9 +283,10 @@ def compress_memory(
     )
 
     print(f"[Memory] Compression: {len(messages)} → {keep_recent} messages")
+    print(f"[Memory] Reason: {reason}")
     print(f"[Memory] Summary: {new_summary[:100]}...")
 
-    # 4. Create RemoveMessage for old messages
+    # 5. Create RemoveMessage for old messages
     delete_messages = [RemoveMessage(id=m.id) for m in old_messages]
 
     return {

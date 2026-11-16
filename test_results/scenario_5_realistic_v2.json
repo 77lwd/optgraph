@@ -1,0 +1,25 @@
+{
+  "scenario": "Scenario 5: Realistic Mixed (25 rounds)",
+  "version": "memory_v2.0",
+  "rounds": 25,
+  "timestamp": 1794816981.8775516,
+  "baseline": {
+    "tokens": 476805,
+    "requests": 26,
+    "time": 354.3753035068512
+  },
+  "memory_v2": {
+    "tokens": 257216,
+    "requests": 30,
+    "time": 393.8438341617584
+  },
+  "comparison": {
+    "token_difference": -219589,
+    "token_change_percent": -46.05425698136555,
+    "time_overhead_percent": 11.137494702461446
+  },
+  "quality": {
+    "baseline_percent": 100.0,
+    "memory_v2_percent": 100.0
+  }
+}

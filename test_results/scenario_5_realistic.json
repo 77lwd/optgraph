@@ -1,0 +1,23 @@
+{
+  "scenario": "Realistic Mixed Conversation (25 rounds)",
+  "rounds": 25,
+  "timestamp": 1794716963.9726143,
+  "baseline": {
+    "tokens": 563820,
+    "requests": 26,
+    "time": 483.9097902774811
+  },
+  "memory": {
+    "tokens": 475083,
+    "requests": 29,
+    "time": 618.5229978561401
+  },
+  "savings": {
+    "token_reduction_percent": 15.73853357454507,
+    "time_overhead_percent": 27.817830984876302
+  },
+  "quality": {
+    "baseline_percent": 100.0,
+    "memory_percent": 50.0
+  }
+}
