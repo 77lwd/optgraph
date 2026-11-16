@@ -1,82 +1,89 @@
-<div align="center">
-  <a href="https://www.langchain.com/langgraph">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset=".github/images/logo-dark.svg">
-      <source media="(prefers-color-scheme: light)" srcset=".github/images/logo-light.svg">
-      <img alt="LangGraph Logo" src=".github/images/logo-dark.svg" width="50%">
-    </picture>
-  </a>
-</div>
+# OptGraph Documentation
 
-<div align="center">
-  <h3>Low-level orchestration framework for building stateful agents.</h3>
-</div>
+**OptGraph** - Production-Ready Agent Orchestration Framework with Cost & Performance Optimization
 
-<div align="center">
-  <a href="https://opensource.org/licenses/MIT" target="_blank"><img src="https://img.shields.io/pypi/l/langgraph" alt="PyPI - License"></a>
-  <a href="https://pypistats.org/packages/langgraph" target="_blank"><img src="https://img.shields.io/pepy/dt/langgraph" alt="PyPI - Downloads"></a>
-  <a href="https://pypi.org/project/langgraph/" target="_blank"><img src="https://img.shields.io/pypi/v/langgraph.svg?label=%20" alt="Version"></a>
-  <a href="https://x.com/langchain_oss" target="_blank"><img src="https://img.shields.io/twitter/url/https/twitter.com/langchain_oss.svg?style=social&label=Follow%20%40LangChain" alt="Twitter / X"></a>
-</div>
-
-<br>
-
-Trusted by companies shaping the future of agents – including Klarna, Replit, Elastic, and more – LangGraph is a low-level orchestration framework for building, managing, and deploying long-running, stateful agents.
-
-```bash
-pip install -U langgraph
-```
-
-> [!TIP]
-> If you're looking to quickly build agents, check out **[Deep Agents](https://docs.langchain.com/oss/python/deepagents/overview)** — a higher-level package built on LangGraph for agents that can plan, use subagents, and leverage file systems for complex tasks.
-
-For an equivalent JS/TS library, check out [LangGraph.js](https://github.com/langchain-ai/langgraphjs) and the [JS docs](https://docs.langchain.com/oss/javascript/langgraph/overview).
-
-## Why use LangGraph?
-
-LangGraph provides low-level supporting infrastructure for *any* long-running, stateful workflow or agent:
-
-- **[Durable execution](https://docs.langchain.com/oss/python/langgraph/durable-execution)** — Build agents that persist through failures and can run for extended periods, automatically resuming from exactly where they left off.
-- **[Human-in-the-loop](https://docs.langchain.com/oss/python/langgraph/interrupts)** — Seamlessly incorporate human oversight by inspecting and modifying agent state at any point during execution.
-- **[Comprehensive memory](https://docs.langchain.com/oss/python/langgraph/memory)** — Create truly stateful agents with both short-term working memory for ongoing reasoning and long-term persistent memory across sessions.
-- **[Debugging with LangSmith](https://www.langchain.com/langsmith)** — Gain deep visibility into complex agent behavior with visualization tools that trace execution paths, capture state transitions, and provide detailed runtime metrics.
-- **[Production-ready deployment](https://docs.langchain.com/langsmith/deployments)** — Deploy sophisticated agent systems confidently with scalable infrastructure designed to handle the unique challenges of stateful, long-running workflows.
-
-> [!TIP]
-> For developing, debugging, and deploying AI agents and LLM applications, see [LangSmith](https://docs.langchain.com/langsmith/home).
-
-## LangGraph ecosystem
-
-While LangGraph can be used standalone, it also integrates seamlessly with any LangChain product, giving developers a full suite of tools for building agents.
-
-To improve your LLM application development, pair LangGraph with:
-
-- [Deep Agents](https://docs.langchain.com/oss/python/deepagents/overview) – Build agents that can plan, use subagents, and leverage file systems for complex tasks.
-- [LangChain](https://docs.langchain.com/oss/python/langchain/overview) – Provides integrations and composable components to streamline LLM application development.
-- [LangSmith](https://www.langchain.com/langsmith) – Helpful for agent evals and observability. Debug poor-performing LLM app runs, evaluate agent trajectories, gain visibility in production, and improve performance over time.
-- [LangSmith Deployment](https://docs.langchain.com/langsmith/deployments) – Deploy and scale agents effortlessly with a purpose-built deployment platform for long-running, stateful workflows. Discover, reuse, configure, and share agents across teams – and iterate quickly with visual prototyping in [LangSmith Studio](https://docs.langchain.com/langsmith/studio).
+基于 LangGraph 核心架构，针对生产环境的三大痛点进行深度优化。
 
 ---
 
-## Documentation
+## 📁 文档目录
 
-- [docs.langchain.com](https://docs.langchain.com/oss/python/langgraph/overview) – Comprehensive documentation, including conceptual overviews and guides
-- [reference.langchain.com/python/langgraph](https://reference.langchain.com/python/langgraph) – API reference docs for LangGraph packages
-- [LangGraph Quickstart](https://docs.langchain.com/oss/python/langgraph/quickstart) – Get started building with LangGraph
-- [Chat LangChain](https://chat.langchain.com/) – Chat with the LangChain documentation and get answers to your questions
+### 核心文档
 
-**Discussions**: Visit the [LangChain Forum](https://forum.langchain.com) to connect with the community and share all of your technical questions, ideas, and feedback.
+- **[【方案】LangGraph拆解与优化项目.md](./【方案】LangGraph拆解与优化项目.md)**  
+  项目整体方案，技术定位，核心优化方向
 
-## Additional resources
+- **[【执行计划】B方案详细计划.md](./【执行计划】B方案详细计划.md)**  
+  5-6 周详细执行计划，每周目标和交付物
 
-- **[Guides](https://docs.langchain.com/oss/python/learn)** – Quick, actionable code snippets for topics such as streaming, adding memory & persistence, and design patterns (e.g. branching, subgraphs, etc.).
-- **[LangChain Academy](https://academy.langchain.com/courses/intro-to-langgraph)** – Learn the basics of LangGraph in our free, structured course.
-- **[Case studies](https://www.langchain.com/built-with-langgraph)** – Hear how industry leaders use LangGraph to ship AI applications at scale.
-- [Contributing Guide](https://docs.langchain.com/oss/python/contributing/overview) – Learn how to contribute to LangChain projects and find good first issues.
-- [Code of Conduct](https://github.com/langchain-ai/langchain/?tab=coc-ov-file) – Our community guidelines and standards for participation.
+- **[AGENTS.md](./AGENTS.md)**  
+  LangGraph Agent 系统说明
+
+### Phase 2: Memory v2.0 系统 ✅
+
+📂 **[memory_v2/](./memory_v2/)**
+
+生产就绪的内存管理系统，核心成果：
+- ✅ **平均Token节省**: 43.8%
+- ✅ **成功率**: 5/5 (100%)
+- ✅ **Quality保持**: 100%
+- ✅ **解决v1灾难**: -322% → -31.0%
+
+详见：[Memory v2 README](./memory_v2/README.md)
+
+### Phase 3: 参数优化（设计中）
+
+- **[phase3_design.md](./phase3_design.md)**  
+  参数优化设计方案，目标 60%+ token 节省
+
+### 归档文档
+
+📂 **[archive/](./archive/)**
+- phase2_memory_v1/ - 旧版memory系统（v1）
+- 中间版本文档和设计迭代记录
 
 ---
 
-## Acknowledgements
+## 🎯 项目目标
 
-LangGraph is inspired by [Pregel](https://research.google/pubs/pub37252/) and [Apache Beam](https://beam.apache.org/). The public interface draws inspiration from [NetworkX](https://networkx.org/documentation/latest/). LangGraph is built by LangChain Inc, the creators of LangChain, but can be used without LangChain.
+解决 LangGraph 在生产环境的三大痛点：
+
+1. **Context 爆炸** - 长对话导致 token 成本线性增长
+2. **串行执行** - 多工具调用浪费时间  
+3. **成本失控** - 缺乏预算控制和实时监控
+
+---
+
+## 🏗️ 技术栈
+
+- **基础框架**: LangGraph (44.9K⭐)
+- **参考项目**: Mem0 (23K⭐), AgeMem 论文
+- **测试模型**: DeepSeek-V4.1-Flash
+- **开发语言**: Python 3.11+
+
+---
+
+## 📊 当前进度
+
+- ✅ Phase 1: 理解 LangGraph 核心机制
+- ✅ Phase 2: Memory v2.0 系统（生产就绪，平均-43.8% token）
+- 🚧 Phase 3: 参数优化（设计中）
+- 📋 Phase 4: 并发执行优化（待启动）
+- 📋 Phase 5: 成本追踪系统（待启动）
+
+---
+
+## 📝 更新日志
+
+**2025-01-16**: Phase 2 Memory v2.0 完成，5场景验证通过  
+**2024-11-15**: Phase 2 v1 完成，发现-322%灾难  
+**2024-11-12**: Phase 3 设计方案  
+**2024-11-10**: B 方案执行计划  
+**2024-11-09**: 项目方案定稿  
+**2024-11-07**: 项目启动
+
+---
+
+**项目状态**: 🟢 进行中  
+**当前版本**: v2.0  
+**维护者**: lwd77
