@@ -11,3 +11,21 @@ build/
 .vscode/
 .idea/
 *.swp
+
+# Test results
+test_results/*.json
+tests/test_results/
+
+# Temporary test scripts
+quick_test_*.py
+test_api_connection.py
+verify_all.sh
+fix_p0_vulnerabilities.sh
+
+# Tool-generated directories
+.qoder/
+
+# Personal interview prep materials
+docs/INTERVIEW_PREP.md
+docs/RESUME_TEMPLATE.md
+docs/RESUME_V2.md
