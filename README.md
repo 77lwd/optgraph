@@ -370,5 +370,4 @@ MIT
 
 ## 📧 Contact
 
-项目作者：[Your Name]  
-项目地址：[GitHub URL]
+项目地址：https://github.com/77lwd/optgraph
