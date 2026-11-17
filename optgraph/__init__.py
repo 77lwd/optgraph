@@ -11,9 +11,12 @@ Core components:
 __version__ = "0.4.0"
 
 from optgraph.memory_state import MemoryState, compress_memory, get_context_with_memory
-from optgraph.executor import DependencyAwareExecutor
 from optgraph.cost_tracker import CostTracker, BudgetExceededError
 from optgraph.parallel_executor import ParallelExecutor, Task
+
+# Backward compatibility: DependencyAwareExecutor is an alias for ParallelExecutor
+# The original executor.py contains only stub code and should not be used
+DependencyAwareExecutor = ParallelExecutor
 from optgraph.optgraph import OptGraph, patch_langgraph, unpatch_langgraph, is_patched
 from optgraph.callbacks import (
     CostTrackingCallback,

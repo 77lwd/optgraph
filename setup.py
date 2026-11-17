@@ -7,7 +7,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="optgraph",
-    version="0.1.0",
+    version="0.4.0",  # Synced with optgraph/__init__.py
     description="Production-grade optimizations for LangGraph agents",
     author="OptGraph Team",
     packages=find_packages(),
