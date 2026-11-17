@@ -15,7 +15,12 @@ from optgraph.executor import DependencyAwareExecutor
 from optgraph.cost_tracker import CostTracker, BudgetExceededError
 from optgraph.parallel_executor import ParallelExecutor, Task
 from optgraph.optgraph import OptGraph, patch_langgraph, unpatch_langgraph, is_patched
-from optgraph.callbacks import CostTrackingCallback, CostTrackedLLM, enable_cost_tracking
+from optgraph.callbacks import (
+    CostTrackingCallback,
+    CostTrackedLLM,
+    enable_cost_tracking,
+    add_cost_tracking_callback,
+)
 
 __all__ = [
     "MemoryState",
@@ -33,4 +38,5 @@ __all__ = [
     "CostTrackingCallback",
     "CostTrackedLLM",
     "enable_cost_tracking",
+    "add_cost_tracking_callback",
 ]

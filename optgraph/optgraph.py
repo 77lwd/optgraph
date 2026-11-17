@@ -63,7 +63,16 @@ class OptGraph:
 
         Example:
             >>> from langgraph.graph import StateGraph, MessagesState
-            >>> from optgraph import OptGraph
+            >>> from langchain_openai import ChatOpenAI
+            >>> from optgraph import OptGraph, enable_cost_tracking
+            >>>
+            >>> # Define agent node with cost tracking
+            >>> def agent_node(state):
+            >>>     llm = ChatOpenAI(model="gpt-4")
+            >>>     # IMPORTANT: Wrap LLM with cost tracker from app
+            >>>     llm = enable_cost_tracking(llm, cost_tracker=app.cost_tracker)
+            >>>     response = llm.invoke(state["messages"])
+            >>>     return {"messages": [response]}
             >>>
             >>> graph = StateGraph(MessagesState)
             >>> graph.add_node("agent", agent_node)
@@ -78,7 +87,10 @@ class OptGraph:
             ...     cost_tracker_config={"budget_limit": 100.0}
             ... )
             >>>
-            >>> # Access cost tracker
+            >>> # Run workflow - costs are tracked automatically
+            >>> result = app.invoke({"messages": [...]})
+            >>>
+            >>> # Check cost stats
             >>> stats = app.cost_tracker.get_stats()
             >>> print(f"Total cost: ${stats['total_cost']:.2f}")
         """
