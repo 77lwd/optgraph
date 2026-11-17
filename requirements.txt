@@ -1,7 +1,14 @@
-langgraph>=1.2.0
-langchain-core>=1.7.0
+# OptGraph Requirements
+# Production dependencies
+
+# Core framework
+langgraph>=0.2.0
+langchain-core>=0.3.0
 langchain-openai>=0.2.0
-pydantic>=2.0.0
-sqlalchemy>=2.0.0
-streamlit>=1.30.0
-pytest>=7.4.0
+
+# Development dependencies
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+
+# Optional: for running examples
+# anthropic>=0.3.0  # If using Anthropic models
