@@ -12,6 +12,11 @@ build/
 .idea/
 *.swp
 
+# Environment variables (IMPORTANT: Never commit .env files!)
+.env
+.env.local
+.env.*.local
+
 # Test results
 test_results/*.json
 tests/test_results/

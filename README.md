@@ -1,5 +1,7 @@
 # OptGraph
 
+> **⚠️ SECURITY NOTICE**: Early versions of this repository contained hardcoded API keys in example files. Those keys have been revoked. Please use environment variables as shown in `.env.example`.
+
 **Production-Ready Agent Orchestration Framework with Cost & Performance Optimization**
 
 > 基于LangGraph构建，针对生产环境的3个核心痛点进行深度优化：Memory爆炸、串行执行、成本失控

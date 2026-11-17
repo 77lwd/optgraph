@@ -102,13 +102,23 @@ def create_chat_agent_with_memory(
 # Example usage
 if __name__ == "__main__":
     import time
+    import os
+
+    # Load API key from environment variable
+    api_key = os.environ.get("API_KEY")
+    if not api_key:
+        raise ValueError(
+            "API_KEY environment variable not set!\n"
+            "Please set the environment variable or create a .env file.\n"
+            "See .env.example for the template."
+        )
 
     # Configuration
     llm_config = {
-        "model": "deepseek-v4.1-flash",
-        "api_key": "sk-c402ad904411957b5990d1df4f91da4dbd3e9ae8d57f93ca2172c5d98122ba07",
-        "base_url": "https://beeapi.dev/v1",
-        "temperature": 0.7
+        "model": os.environ.get("MODEL", "deepseek-v4.1-flash"),
+        "api_key": api_key,
+        "base_url": os.environ.get("BASE_URL", "https://beeapi.dev/v1"),
+        "temperature": float(os.environ.get("TEMPERATURE", "0.7"))
     }
 
     # Create agent
