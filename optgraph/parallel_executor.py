@@ -14,22 +14,31 @@ class Task:
     """Task representation (simplified for now)"""
 
     def __init__(self, task_id: str, func: Callable,
-                 reads: Set[str] = None, writes: Set[str] = None):
+                 reads: Set[str] = None, writes: Set[str] = None,
+                 timeout: float = None):
         """
         Args:
             task_id: Unique task identifier
             func: Async function to execute
             reads: Set of channels this task reads from
             writes: Set of channels this task writes to
+            timeout: Optional timeout in seconds (None = no timeout)
         """
         self.id = task_id
         self.func = func
         self.reads = reads or set()
         self.writes = writes or set()
+        self.timeout = timeout
 
     async def execute(self) -> Any:
-        """Execute the task"""
-        return await self.func()
+        """Execute the task with optional timeout"""
+        if self.timeout:
+            try:
+                return await asyncio.wait_for(self.func(), timeout=self.timeout)
+            except asyncio.TimeoutError:
+                raise TimeoutError(f"Task {self.id} exceeded timeout of {self.timeout}s")
+        else:
+            return await self.func()
 
     def __repr__(self):
         return f"Task({self.id})"
@@ -158,13 +167,16 @@ class ParallelExecutor:
 
         Returns:
             List of results in the same order as tasks
+            For failed tasks, returns Exception object instead of result
         """
         if self.max_workers and len(tasks) > self.max_workers:
             # Execute in batches if max_workers is set
             return await self._execute_with_limit(tasks)
         else:
             # Execute all tasks concurrently
-            return await asyncio.gather(*[task.execute() for task in tasks])
+            # return_exceptions=True: failed tasks return Exception, not raise
+            return await asyncio.gather(*[task.execute() for task in tasks],
+                                       return_exceptions=True)
 
     async def _execute_with_limit(self, tasks: List[Task]) -> List[Any]:
         """
@@ -174,7 +186,7 @@ class ParallelExecutor:
             tasks: Tasks to execute
 
         Returns:
-            List of results
+            List of results (or Exceptions for failed tasks)
         """
         semaphore = asyncio.Semaphore(self.max_workers)
 
@@ -182,7 +194,8 @@ class ParallelExecutor:
             async with semaphore:
                 return await task.execute()
 
-        return await asyncio.gather(*[limited_execute(task) for task in tasks])
+        return await asyncio.gather(*[limited_execute(task) for task in tasks],
+                                   return_exceptions=True)
 
 
 # Example usage and tests
