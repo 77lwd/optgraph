@@ -394,11 +394,18 @@ class CostTracker:
         """
 
         # Deactivate existing budgets for this scope
-        self.conn.execute("""
-            UPDATE budgets
-            SET is_active = FALSE
-            WHERE scope = ? AND scope_id IS ?
-        """, (scope, scope_id))
+        if scope_id is None:
+            self.conn.execute("""
+                UPDATE budgets
+                SET is_active = FALSE
+                WHERE scope = ? AND scope_id IS NULL
+            """, (scope,))
+        else:
+            self.conn.execute("""
+                UPDATE budgets
+                SET is_active = FALSE
+                WHERE scope = ? AND scope_id = ?
+            """, (scope, scope_id))
 
         # Insert new budget
         self.conn.execute("""
@@ -433,13 +440,22 @@ class CostTracker:
             scope, scope_id = "global", None
 
         # Get active budget
-        cursor = self.conn.execute("""
-            SELECT budget_usd, warning_threshold
-            FROM budgets
-            WHERE scope = ? AND scope_id IS ? AND is_active = TRUE
-            ORDER BY created_at DESC
-            LIMIT 1
-        """, (scope, scope_id))
+        if scope_id is None:
+            cursor = self.conn.execute("""
+                SELECT budget_usd, warning_threshold
+                FROM budgets
+                WHERE scope = ? AND scope_id IS NULL AND is_active = TRUE
+                ORDER BY created_at DESC
+                LIMIT 1
+            """, (scope,))
+        else:
+            cursor = self.conn.execute("""
+                SELECT budget_usd, warning_threshold
+                FROM budgets
+                WHERE scope = ? AND scope_id = ? AND is_active = TRUE
+                ORDER BY created_at DESC
+                LIMIT 1
+            """, (scope, scope_id))
 
         budget_row = cursor.fetchone()
 

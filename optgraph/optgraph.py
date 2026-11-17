@@ -18,12 +18,14 @@ Usage:
     # Now all LangGraph apps use OptGraph features
 """
 
-from typing import Optional, Type
+from typing import Optional, Type, Dict, Any
 from langgraph.graph import StateGraph
 from langgraph.pregel import Pregel
 from langchain_core.runnables import RunnableConfig
 
 from optgraph.langgraph_executor import OptGraphAsyncExecutor
+from optgraph.cost_tracker import CostTracker
+from optgraph.callbacks import CostTrackingCallback
 
 
 class OptGraph:
@@ -42,6 +44,7 @@ class OptGraph:
         enable_parallel: bool = True,
         enable_memory_v2: bool = False,
         enable_cost_tracking: bool = False,
+        cost_tracker_config: Optional[Dict[str, Any]] = None,
         **compile_kwargs
     ) -> Pregel:
         """
@@ -52,6 +55,7 @@ class OptGraph:
             enable_parallel: Enable parallel tool execution (default: True)
             enable_memory_v2: Enable memory v2 optimization (default: False)
             enable_cost_tracking: Enable cost tracking (default: False)
+            cost_tracker_config: Config for CostTracker (db_path, budget_limit, etc.)
             **compile_kwargs: Additional kwargs passed to graph.compile()
 
         Returns:
@@ -66,14 +70,20 @@ class OptGraph:
             >>> graph.add_node("tools", tool_node)
             >>> # ... setup edges ...
             >>>
-            >>> # Compile with parallel execution
-            >>> app = OptGraph.compile(graph, enable_parallel=True)
+            >>> # Compile with all optimizations
+            >>> app = OptGraph.compile(
+            ...     graph,
+            ...     enable_parallel=True,
+            ...     enable_cost_tracking=True,
+            ...     cost_tracker_config={"budget_limit": 100.0}
+            ... )
             >>>
-            >>> # Now tool calls execute in parallel automatically!
-            >>> result = await app.ainvoke({"messages": [...]})
+            >>> # Access cost tracker
+            >>> stats = app.cost_tracker.get_stats()
+            >>> print(f"Total cost: ${stats['total_cost']:.2f}")
         """
 
-        # Store OptGraph config in compile_kwargs
+        # Store OptGraph config
         optgraph_config = {
             "enable_parallel": enable_parallel,
             "enable_memory_v2": enable_memory_v2,
@@ -83,18 +93,32 @@ class OptGraph:
         # Compile the graph
         app = graph.compile(**compile_kwargs)
 
-        # Monkey-patch the executor for this specific app instance
+        # Store config on app
+        app._optgraph_config = optgraph_config
+
+        # Enable parallel execution
         if enable_parallel:
-            # Store original executor class
-            original_executor = getattr(app, "_AsyncBackgroundExecutor", None)
-
-            # Replace with OptGraph executor
-            # Note: This is a simplified approach. Full integration requires
-            # modifying how Pregel creates executors internally.
-            app._optgraph_config = optgraph_config
-
             print(f"[OptGraph] Compiled with parallel execution enabled")
             print(f"[OptGraph] Expected: 70% latency reduction on multi-tool calls")
+
+        # Enable cost tracking
+        if enable_cost_tracking:
+            # Create CostTracker instance
+            tracker_config = cost_tracker_config or {}
+            cost_tracker = CostTracker(**tracker_config)
+
+            # Attach to app
+            app.cost_tracker = cost_tracker
+
+            # Create callback
+            app.cost_tracking_callback = CostTrackingCallback(cost_tracker)
+
+            print(f"[OptGraph] Cost tracking enabled")
+            print(f"[OptGraph] Access tracker via: app.cost_tracker")
+            print(f"[OptGraph] Use callback via: app.cost_tracking_callback")
+
+            if "budget_limit" in tracker_config:
+                print(f"[OptGraph] Budget limit: ${tracker_config['budget_limit']:.2f}")
 
         return app
 
